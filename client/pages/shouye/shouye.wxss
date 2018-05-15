@@ -1,0 +1,8 @@
+.singular-button{
+  margin-bottom: 60rpx;
+}
+.button-wrapper{
+  background-color: moccasin;
+  padding-top: 500rpx;
+  padding-bottom:460rpx; 
+}

@@ -1,0 +1,11 @@
+.page-section{
+  margin-bottom: 20rpx;
+}
+.flex-wrp {display: flex;}
+.bc{
+  margin-left: 80rpx;
+margin-top:40rpx;
+background: black;
+width:100px; 
+height: 100px;
+margin-right:40rpx;}

@@ -1,0 +1,11 @@
+<!--shouye.wxml-->
+<view class="button-wrapper">
+  <button class="singular-button"
+          type='primary'
+          bindtap='navigate1'
+  >单人</button>
+  <button class="throng-button" 
+          size="default" 
+          type="primary"
+          bindtap='navigate2'>多人</button>
+</view>

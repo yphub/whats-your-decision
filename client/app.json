@@ -1,0 +1,17 @@
+{
+  "pages": [
+    "pages/shouye/shouye",
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/tianqi/tianqi",
+    "pages/danren/danren",
+    "pages/duoren/duoren",
+    "pages/slect/slect"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle": "black"
+  }
+}
