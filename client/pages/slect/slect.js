@@ -1,105 +1,73 @@
 //slect.js
-//获取应用实例
-const app1 = getApp()
-
-
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    shuzi:0,
+    selectArr: [],
+    deleteOn: false,
+    detailIndexAt: false
   },
-
-  changeSlect1:function(){
+  DeleteSelect({
+    detail
+  }) {
+    this.data.selectArr.splice(detail, 1);
     this.setData({
-      shuzi:2,
-    })
-    wx.navigateTo({
-      url: '../danren/danren?slectNumber='+this.data.shuzi
+      selectArr: this.data.selectArr,
+      deleteOn: this.data.selectArr.length != 0
     })
   },
-
-  changeSlect2: function () {
+  AlterImages({
+    detail
+  }) {
+    wx.chooseImage({
+      sizeType: ['compressed'],
+      sourceType: ['album', 'camera'],
+      success: (res) => {
+        res.tempFilePaths.forEach((imgurl) => {
+          imgurl = `url(${imgurl})`
+          if (this.data.selectArr[detail] != undefined)
+            this.data.selectArr[detail].imgurl = imgurl
+          else
+            this.data.selectArr.push({
+              imgurl,
+              text: ""
+            });
+          this.setData({
+            selectArr: this.data.selectArr
+          });
+          detail == -1 || detail++;
+        })
+      }
+    })
+  },
+  AlterDetail({
+    detail
+  }) {
     this.setData({
-      shuzi: 3,
-    })
-    wx.navigateTo({
-      url: '../danren/danren?slectNumber=' + this.data.shuzi
+      detailIndexAt: detail
     })
   },
-
-  changeSlect3: function () {
+  ResetDetailIndex() {
+    this.AlterDetail({
+      detail: false
+    });
+  },
+  ChangeDetail({
+    detail
+  }) {
+    if (this.data.detailIndexAt == -1)
+      this.data.selectArr.push(detail);
+    else this.data.selectArr[this.data.detailIndexAt] = detail;
     this.setData({
-      shuzi: 4,
+      selectArr: this.data.selectArr
     })
-    wx.navigateTo({
-      url: '../danren/danren?slectNumber=' + this.data.shuzi
-    })
+    this.ResetDetailIndex();
   },
-
-  changeSlect4: function () {
+  TiggleDelete(res) {
     this.setData({
-      shuzi: 5,
-    })
-    wx.navigateTo({
-      url: '../danren/danren?slectNumber=' + this.data.shuzi
+      deleteOn: res.detail
     })
   },
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-    
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-    
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-    
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-    
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-    
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-    
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-    
-  }
 })

@@ -1,12 +1,12 @@
 {
   "pages": [
     "pages/shouye/shouye",
+    "pages/slect/slect",        
     "pages/index/index",
     "pages/logs/logs",
     "pages/tianqi/tianqi",
     "pages/danren/danren",
-    "pages/duoren/duoren",
-    "pages/slect/slect"
+    "pages/duoren/duoren"
   ],
   "window": {
     "backgroundTextStyle": "light",

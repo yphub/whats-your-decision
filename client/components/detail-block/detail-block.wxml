@@ -1,0 +1,6 @@
+<view class="detail-block">
+  <view class="detail-image hr-bottom" style="background:{{selectData.imgurl}}" bind:tap="AlterImage"></view>
+  <input placeholder="input" class="hr-bottom {{inputFocusClass}}" value="{{selectData.text}}" focus bindinput="TextInput" bindfocus='InputTiggleFocusClass' bindblur='InputTiggleFocusClass'/>
+  <button bind:tap="EmitClose">关闭</button>
+  <button bind:tap="EmitCertain">确定</button>
+</view>

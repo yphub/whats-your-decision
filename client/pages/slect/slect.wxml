@@ -1,11 +1,8 @@
-<view class="section">
-  <view class="section__title">几选几</view>
-  <view class="flex-wrp" style="flex-direction:row;">
-    <view class="flex-item bc" style='color:white' bindtap="changeSlect1">二选一</view>
-    <view class="flex-item bc" style='color:white' bindtap="changeSlect2">三选一</view>
-  </view>
-  <view class="flex-wrp" style="flex-direction:row;">
-    <view class="flex-item bc" style='color:white' bindtap="changeSlect3">四选一</view>
-    <view class="flex-item bc" style='color:white' bindtap="changeSlect4">多选一</view>
-  </view>
+<view class="select-container">
+  <select-block wx:for="{{selectArr}}" wx:key="{{index}}" index="{{index}}" deleteOn="{{deleteOn}}" selectData="{{item}}" style="flex-basis:{{selectArr.length < 4 ? 49 : 33}}%;height:{{selectArr.length < 4 ? 30 : 25}}0rpx" bind:tiggledelete="TiggleDelete" bind:delete="DeleteSelect" bind:images="AlterImages" bind:edit="AlterDetail">
+  </select-block>
+  <select-block style="flex-basis:{{selectArr.length < 4 ? 49 : 33}}%;height:{{selectArr.length < 4 ? 30 : 25}}0rpx" bind:images="AlterImages" selectData="{{ {imgurl:'url(https://wonply6i.qcloud.la/static/images/plus.png)'} }}" bind:edit="AlterDetail">  
+  </select-block>  
+  <detail-block wx:if="{{detailIndexAt !== false}}" bind:close="ResetDetailIndex" bind:certain="ChangeDetail" selectData="{{selectArr[detailIndexAt]}}">
+  </detail-block>
 </view>
