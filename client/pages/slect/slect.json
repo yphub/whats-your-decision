@@ -1,7 +1,8 @@
 {
-    "navigationBarTitleText": "选择容器数量",
-    "usingComponents":{
-      "select-block":"/components/select-block/select-block",
-      "detail-block":"/components/detail-block/detail-block"
-    }
+  "navigationBarTitleText": "选择容器数量",
+  "usingComponents": {
+    "select-block": "/components/select-block/select-block",
+    "detail-block": "/components/detail-block/detail-block",
+    "shuffle-block": "/components/shuffle-block/shuffle-block"    
+  }
 }

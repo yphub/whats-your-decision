@@ -1,21 +1,31 @@
-Component({
+var obj = global.watcher.prepare({
     properties: {
         selectData: {
             type: Object,
             value: {},
-            observer(newval) {
-                if (newval === null)
-                    this.setData({
-                        selectData: {
-                            imgurl: "",
-                            text: ""
-                        }
-                    })
+        }
+    },
+    watch: {
+        selectData(newval) {
+            if (newval === null)
+                this.data.selectData = {
+                    imgurl: "",
+                    text: ""
+                }
+            else {
+                this.data.colorSelectArr[this.data.colorSelectArr.length - 1] = newval.imgurl;
             }
         }
     },
     data: {
-        inputFocusClass: ""
+        showClass: "",
+        inputFocusClass: "",
+        colorSelectArr: [
+            "red", "blue", "green"
+        ]
+    },
+    created() {
+        this.data.colorSelectArr.push(this.data.selectData.imgurl);
     },
     methods: {
         EmitClose() {
@@ -34,20 +44,19 @@ Component({
                 sourceType: ['album', 'camera'],
                 success: (res) => {
                     this.data.selectData.imgurl = `url(${res.tempFilePaths[0]})`;
-                    this.setData({
-                        selectData: this.data.selectData
-                    })
+                    this.data.colorSelectArr[this.data.colorSelectArr.length - 1] = this.data.selectData.imgurl;
                 }
             })
         },
+        SetColor(e) {
+            this.data.selectData.imgurl = e.target.dataset.color;
+        },
         InputTiggleFocusClass(e) {
             if (e.type == 'focus')
-                this.setData({
-                    inputFocusClass: "focus"
-                })
-            else this.setData({
-                inputFocusClass: ""
-            });
+                this.data.inputFocusClass = "focus"
+            else this.data.inputFocusClass = ""
         }
     }
 })
+
+Component(obj);

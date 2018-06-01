@@ -1,4 +1,6 @@
 //app.js
+import watcher from '/plugin/watcher'
+global.watcher = watcher;
 App({
   onLaunch: function () {
     // 展示本地存储能力
@@ -35,6 +37,6 @@ App({
   },
   globalData: {
     userInfo: null,
-    slectNumber:null
+    shuffleData: undefined
   }
 })

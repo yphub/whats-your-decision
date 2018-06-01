@@ -8,8 +8,6 @@
   font-family: "iconfont" !important;
   font-size: 16px;
   font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 .select-block {
@@ -20,41 +18,56 @@
   left: 5%;
   right: 5%;
   background: white;
+  display: flex;
+  flex-direction: column;
+  padding: 5%;
 }
 
 .select-block-inner {
-  position: absolute;
-  top: 5%;
-  bottom: 5%;
-  left: 5%;
-  right: 5%;
+  flex-grow: 2;
   background-size: cover !important;
   background-position: center !important;
   background-repeat: no-repeat !important;
+}
+
+.select-add:before {
+  font-family: "iconfont";
+  content: "\e727";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 200rpx;
+  color: #666;
+}
+
+.select-block-text {
+  text-align: center;
+  font-size: 15px;
+  padding: 3px;
 }
 
 .select-block-mask {
   display: flex;
   justify-content: space-between;
   position: absolute;
+  left: 0;
+  top: 0;
   height: 100%;
   width: 100%;
   opacity: 0;
   transition: all ease-in-out .4s;
-  background-color: rgba(0,0,0,.2);
+  background-color: rgba(0, 0, 0, .2);
+  transform: scale(.8)
 }
 
-.select-block-hover>.select-block-mask{
+.select-block-hover>.select-block-mask {
+  transform: scale(1);
   opacity: 1;
 }
 
-.select-block-mask>view {
-  flex-basis: 49.5%;  
-  transition: all ease-in-out .4s;
-}
-
-.mask-hover{
-  background-color: rgba(0,0,0,.5)
+.mask-hover {
+  background-color: rgba(0, 0, 0, .5);
+  transform: scale(1) !important;
 }
 
 .icon-close {
@@ -68,4 +81,33 @@
 
 .icon-close:before {
   content: "\e676";
+}
+
+.icon-picture:before {
+  content: "\e61f";
+}
+
+.icon-detail:before {
+  content: "\e60a";
+}
+
+.select-block-mask-inner {
+  flex-basis: 49.5%;
+  transition: all ease-in-out .4s;
+  transform: scale(.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.select-block-mask-inner>view {
+  transition: all ease-in-out .4s;
+  transform: scale(1.5);
+  /* color: #dddddd; */
+  color: white;
+}
+
+.mask-hover>view {
+  font-size: 20px;
+  /* transform: scale(2); */
 }

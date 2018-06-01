@@ -1,0 +1,81 @@
+/* components/shuffle-block/shuffle-block.wxss */
+
+.shuffle-block {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, .3)
+}
+
+@keyframes loading-rotate {
+    from {
+        transform: rotate(0deg)
+    }
+    to {
+        transform: rotate(360deg)
+    }
+}
+
+.shuffle-loading {
+    animation: loading-rotate 1s ease infinite;
+}
+
+.icon-loading {
+    font-family: "iconfont";
+    font-size: 30px;
+    color: white;
+}
+
+.icon-loading:before {
+    content: "\e680";
+}
+
+.shuffle-result {
+    width: 100%;
+    height: 85%;
+    display: flex;
+    flex-direction: column;
+}
+
+.shuffle-result>swiper {
+    width: 100%;
+    flex-grow: 2;
+}
+
+.shuffle-item,
+.shuffle-item-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.shuffle-item{    
+    padding-left: 10%;
+    padding-right: 10%;    
+    width: 80% !important;
+    height: 80% !important;
+    top: 10%;
+    overflow: visible;
+}
+
+.shuffle-item-card{    
+    height: 100%;
+    background: white;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
+    padding: 5%;
+}
+
+.shuffle-item-image{    
+    flex-grow: 2;
+    background-position: center !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+}
+
+.shuffle-item-card>text{
+    text-align: center;
+}

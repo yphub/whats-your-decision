@@ -1,8 +1,18 @@
 <view class="select-container">
-  <select-block wx:for="{{selectArr}}" wx:key="{{index}}" index="{{index}}" deleteOn="{{deleteOn}}" selectData="{{item}}" style="flex-basis:{{selectArr.length < 4 ? 49 : 33}}%;height:{{selectArr.length < 4 ? 30 : 25}}0rpx" bind:tiggledelete="TiggleDelete" bind:delete="DeleteSelect" bind:images="AlterImages" bind:edit="AlterDetail">
+  <select-block wx:for="{{selectArr}}" wx:key="{{index}}" index="{{index}}" deleteOn="{{deleteOn}}" selectData="{{item}}" style="{{ selectBlockStyle }}" bind:tiggledelete="TiggleDelete"
+    bind:delete="DeleteSelect" bind:images="AlterImages" bind:edit="AlterDetail">
   </select-block>
-  <select-block style="flex-basis:{{selectArr.length < 4 ? 49 : 33}}%;height:{{selectArr.length < 4 ? 30 : 25}}0rpx" bind:images="AlterImages" selectData="{{ {imgurl:'url(https://wonply6i.qcloud.la/static/images/plus.png)'} }}" bind:edit="AlterDetail">  
-  </select-block>  
-  <detail-block wx:if="{{detailIndexAt !== false}}" bind:close="ResetDetailIndex" bind:certain="ChangeDetail" selectData="{{selectArr[detailIndexAt]}}">
-  </detail-block>
+  <select-block style="{{ selectBlockStyle }}" bind:images="AlterImages" selectData="{{ {imgurl:''} }}" bind:edit="AlterDetailPlus">
+  </select-block>
 </view>
+<picker bind:change="onResultNumChange" range="{{resultNumArr}}" disabled="{{ decisionNum==0 }}">
+  <view class="result-num-picker">
+    决策<view>{{decisionNum}}<view class="result-xiala"></view></view>个事件
+  </view>
+</picker>
+<view class="decide-container">
+  <button disabled='{{ selectArr.length == 0 }}' bind:tap="GoToShuffle">摇一摇决策</button>
+</view>
+<detail-block wx:if="{{detailIndexAt !== false}}" bind:transitionend="onDetailAnimateEnd" class="{{detailBlockShow ? 'show' : ''}}" bind:close="ResetDetailIndex" bind:certain="ChangeDetail" selectData="{{selectArr[detailIndexAt]}}">
+</detail-block>
+<!-- <shuffle-block wx:if="{{true}}"></shuffle-block> -->
