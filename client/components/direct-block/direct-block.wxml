@@ -1,5 +1,0 @@
-<view class="direct-block">
-  <scroll-view scroll-y class="scrollBlock">
-  <text>{{detailText.text}}</text></scroll-view>
-  <button bind:tap="closeWindow">确定</button>
-</view>

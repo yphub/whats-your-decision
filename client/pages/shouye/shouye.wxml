@@ -1,7 +1,0 @@
-<!--shouye.wxml-->
-<view class="logo">
-  <view class="logotext"></view>
-</view>
-<button bindtap='JumpToSingle'>单人决策</button>
-<button bindtap='JumpToGroups'>多人决策</button>
-

@@ -1,8 +1,0 @@
-<!--pages/tianqi/tianqi.wxml-->
-<view class="weather-wrapper">
-  <view class="tianqi">{{tianqi}}</view>
-  <view class="miaoshu">{{miaoshu}}</view>
-  <image class="weather-bg"
-  src='/src/images/天气.png'
-  mode='scaleToFill'></image>
-</view>

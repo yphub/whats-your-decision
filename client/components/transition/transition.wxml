@@ -1,3 +1,0 @@
-<view class="{{keyclass}}">
-  <slot></slot>
-</view>
