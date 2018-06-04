@@ -5,8 +5,19 @@ export default {
     const logs = wx.getStorageSync("logs") || [];
     logs.unshift(Date.now());
     wx.setStorageSync("logs", logs);
-
     console.log("app created and cache logs by setStorageSync");
+  },
+  mounted() {
+    this.$nextTick(() => {
+      getApp().globalData.ShuffleData = {
+        arr: [
+          { imgurl: "red", text: "测试数据1" },
+          { imgurl: "green", text: "很长很长非常长并且肯定会换行的测试数据2" },
+          { imgurl: "blue", text: "测试数据3" }
+        ],
+        num: 2
+      };
+    });
   }
 };
 </script>
