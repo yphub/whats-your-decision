@@ -13,7 +13,7 @@
       </div>
     </picker>
     <div class="decide-container">
-      <button :disabled='selectArr.length == 0' @click="GoToShuffle">摇一摇决策</button>
+      <button :disabled='selectArr.length == 0' @click="GoToShuffle" open-type="getUserInfo">摇一摇决策</button>
     </div>
     <detailBlock v-if="detailIndexAt !== false" @close="detailIndexAt = false;" @certain="ChangeDetail" :selectData="selectArr[detailIndexAt]" />
   </div>
@@ -39,31 +39,34 @@ export default {
 
       return arr;
     }
-  },  
+  },
+  watch: {
+    goshuffle(val) {
+      if (val === true) this.GoToShuffle();
+    }
+  },
   data() {
     return {
       selectArr: [],
       deleteOn: false,
       decisionNum: 1,
-      detailIndexAt: false
+      detailIndexAt: false,
+      goshuffle: false
     };
   },
   onShow() {
-    var hold = true;
     wx.onAccelerometerChange(res => {
       if (
-        res.x * res.x + res.y * res.y + res.z * res.z > 1 &&
-        hold &&
+        res.x * res.x + res.y * res.y + res.z * res.z > 2 &&
         this.detailIndexAt === false &&
         this.selectArr.length !== 0
-      ) {
-        hold = false;
-        this.GoToShuffle();
-      }
+      )
+        this.goshuffle = true;
     });
   },
   onHide() {
     wx.stopAccelerometer();
+    this.goshuffle = false;
   },
   methods: {
     onEditPlus() {

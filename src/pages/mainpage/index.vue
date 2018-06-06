@@ -3,8 +3,8 @@
     <div class="logo">
       <div class="logotext"></div>
     </div>
-    <button @tap="JumpPage('single')">单人决策</button>
-    <button @tap="JumpPage('multiple')">多人决策</button>
+    <button @tap="JumpPage('single')">开始决策</button>
+    <!-- <button @tap="JumpPage('multiple')">多人决策</button> -->
   </div>
 </template>
 
@@ -20,6 +20,11 @@ export default {
         url: `/pages/${name}/main`
       });
     }
+  },
+  mounted() {
+    /*wx.navigateTo({
+      url: "/pages/show/main?id=1&token=2"
+    });*/
   }
 };
 </script>
@@ -30,12 +35,12 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  padding-left: 10%;
+  justify-content: space-around;  
   width: 80%;
+  height: 100%;
+  margin-left: 10%;  
 
-  .logo {
-    margin-top: 50rpx;
-    margin-bottom: 40rpx;
+  .logo {    
     width: 600rpx;
     height: 600rpx;
     border-radius: 50%;

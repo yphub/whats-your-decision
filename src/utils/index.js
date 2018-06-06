@@ -26,25 +26,3 @@ export default {
   formatNumber,
   formatTime
 }
-
-wx.ajax = function (path, data, method) {
-  const host = "https://xcx.oucolab.cn"
-  if (path === undefined) path = ''
-  return new Promise(function (resolve, reject) {
-    wx.request({
-      url: host + path,
-      data,
-      method,
-      success: resolve,
-      fail: reject
-    })
-  })
-}
-
-wx.get = function (path, data) {
-  return wx.ajax(path, data, 'GET')
-}
-
-wx.post = function (path, data) {
-  return wx.ajax(path, data, 'POST')
-}
