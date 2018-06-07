@@ -14,19 +14,25 @@
     </picker>
     <div class="decide-container">
       <button :disabled='selectArr.length == 0' @click="GoToShuffle" open-type="getUserInfo">摇一摇决策</button>
+      <div class="open-direct" @click="showDirect=true"></div>
     </div>
     <detailBlock v-if="detailIndexAt !== false" @close="detailIndexAt = false;" @certain="ChangeDetail" :selectData="selectArr[detailIndexAt]" />
+    <div v-if="showDirect!==false">
+      <directBlock @hidden="showDirect=false" />
+    </div>
   </div>
 </template>
 
 <script>
 import selectBlock from "@/components/selectBlock";
 import detailBlock from "@/components/detailBlock";
+import directBlock from "@/components/directBlock";
 export default {
   name: "",
   components: {
     selectBlock,
-    detailBlock
+    detailBlock,
+    directBlock
   },
   computed: {
     resultNumArr() {
@@ -51,7 +57,8 @@ export default {
       deleteOn: false,
       decisionNum: 1,
       detailIndexAt: false,
-      goshuffle: false
+      goshuffle: false,
+      showDirect: true
     };
   },
   onShow() {
@@ -83,7 +90,7 @@ export default {
         sourceType: ["album", "camera"],
         success: res => {
           res.tempFilePaths.forEach(imgurl => {
-            imgurl = `url(${imgurl})`;
+            // imgurl = `url(${imgurl})`;
             if (this.selectArr[index] != undefined)
               this.selectArr[index].imgurl = imgurl;
             else
@@ -131,14 +138,14 @@ export default {
     width: 92%;
     flex-grow: 2;
     align-content: flex-start;
+    overflow-x: hidden;
     &.small > .selectBlock {
       flex-basis: 33%;
       height: 250rpx;
+      .select-add {
+        font-size: 100rpx !important;
+      }
     }
-  }
-
-  .select-slider {
-    width: 100%;
   }
 
   .result-num-picker {
@@ -149,20 +156,40 @@ export default {
       display: flex;
       margin: 0px 3px;
     }
-  }
-
-  .result-xiala:before {
-    font-family: "iconfont";
-    transform: translateY(2px);
-    margin-left: 5px;
-    content: "\e654";
+    .result-xiala:before {
+      font-family: "iconfont";
+      transform: translateY(2px);
+      margin-left: 5px;
+      content: "\e654";
+    }
   }
 
   .decide-container {
     margin-bottom: 40rpx;
     width: 92%;
+    position: relative;
     > button {
       width: 100%;
+    }
+    > .open-direct:before {
+      content: "\e60e";
+      font-family: "iconfont";
+    }
+    > .open-direct {
+      position: absolute;
+      width: 20px;
+      background: #007bff;
+      height: 20px;
+      right: 0;
+      bottom: 55px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      color: white;
+      font-size: 30px;
+      border-radius: 50%;
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
     }
   }
 }

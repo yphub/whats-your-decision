@@ -1,7 +1,9 @@
 <template>
   <div class='selectBlock' ref="mainblock">
     <view class="outer" :class="{'outer-hover':componentHover}" @tap="EmitItap" @touchstart="onTouchStart" @touchend="onTouchEnd" @touchmove="onTouchMove" @longpress="EmitTiggleDelete">
-      <view class="inner" :class="{'select-add':selectData.text===undefined}" :style='{background:selectData.imgurl}'></view>
+      <view class="inner" :class="{'select-add':selectData.text===undefined}" :style="{background:selectData.imgurl}">
+        <image v-if="isUrlImage" mode="aspectFill" :src="selectData.imgurl" />
+      </view>
       <text v-if="selectData.text">{{selectData.text}}</text>
       <view class="mask">
         <view class="iconfont inner" :class="{'mask-hover':optionHoverLeft}">
@@ -26,6 +28,11 @@ export default {
       optionHoverLeft: false,
       optionHoverRight: false
     };
+  },
+  computed: {
+    isUrlImage() {
+      return this.selectData.imgurl.indexOf("://") !== -1;
+    }
   },
   methods: {
     EmitItap() {
@@ -54,10 +61,10 @@ export default {
       var query = wx.createSelectorQuery().in(this.$root.$mp.page);
       var id = this.$parent.$children.indexOf(this);
       if (id == 0) id = this.$parent.$children.length - 1;
-      else id--;                
+      else id--;
       query
         .selectAll(".outer")
-        .boundingClientRect(res => {          
+        .boundingClientRect(res => {
           res = res[id];
           if (
             point.pageX > res.left &&
@@ -99,7 +106,7 @@ export default {
   flex-basis: 49%;
   height: 300rpx;
   position: relative;
-  transition: all ease-in-out .4s;
+  transition: all ease-in-out 0.4s;
   > .outer {
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
     position: absolute;
@@ -116,9 +123,20 @@ export default {
       background-size: cover !important;
       background-position: center !important;
       background-repeat: no-repeat !important;
-      &.select-add:before {
+      transition: all ease-in-out 0.4s;
+      position: relative;
+      > image {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+      }
+      &.select-add {
         font-family: "iconfont";
-        content: "\e727";
+        &:before {
+          content: "\e727";
+        }
         display: flex;
         justify-content: center;
         align-items: center;

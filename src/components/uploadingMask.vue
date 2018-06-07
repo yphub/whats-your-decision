@@ -1,7 +1,7 @@
 <template>
     <div :class="{loading:loading.sum}" :style="{display}" @animationend="onTransitionEnd" id='upLoadingMask'>
         <progress :percent="loadingper" />
-        <span>{{loading.at}}/{{loading.sum}}</span>
+        <span>上传中：{{loading.at}}/{{loading.sum}}</span>
     </div>
 </template>
 

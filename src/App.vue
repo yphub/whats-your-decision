@@ -1,16 +1,10 @@
 <script>
-import initFunc from '@/extra/initFunc';
+import initFunc from "@/extra/initFunc";
 export default {
-  created() {
-    // 调用API从本地缓存中获取数据
-    const logs = wx.getStorageSync("logs") || [];
-    logs.unshift(Date.now());
-    wx.setStorageSync("logs", logs);
-    console.log("app created and cache logs by setStorageSync");
-  },
+  created() {},
   mounted() {
     this.$nextTick(() => {
-      initFunc();      
+      initFunc();
     });
   }
 };
@@ -30,5 +24,58 @@ export default {
 }
 page {
   height: 100%;
+}
+image {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+@keyframes rubberBand {
+  from {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  7% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+    transform: scale3d(1.25, 0.75, 1);
+  }
+
+  10% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+    transform: scale3d(0.75, 1.25, 1);
+  }
+
+  12% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+    transform: scale3d(1.15, 0.85, 1);
+  }
+
+  16% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+    transform: scale3d(0.95, 1.05, 1);
+  }
+
+  19% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+    transform: scale3d(1.05, 0.95, 1);
+  }
+
+  25% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  to {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.rubberBand {
+  animation: rubberBand 4s infinite;
+  margin-top: -20px;  
 }
 </style>

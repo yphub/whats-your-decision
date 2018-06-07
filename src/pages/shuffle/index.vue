@@ -5,7 +5,7 @@
       <div v-if="operateArr.length" class="shuffle-result">
         <resultSwiper :items="operateArr"></resultSwiper>
         <div class="button-group">
-          <button @click="shareMenu" open-type="share" type="primary">分享</button>
+          <button v-if="canShare" @click="shareMenu" open-type="share" type="primary">分享</button>
           <button @click="goBack">返回</button>
         </div>
       </div>
@@ -32,36 +32,45 @@ export default {
       uploadStatus: {
         sum: 0,
         at: 0
-      }
+      },
+      canShare: true
     };
   },
   methods: {
     ShuffleArrayLocal() {
       //本地随机
-      const arr = JSON.parse(JSON.stringify(getApp().globalData.ShuffleData));
+      wx.showToast({
+        title: "服务器出错，进行本地随机",
+        icon: "none"
+      });
+      const data = JSON.parse(JSON.stringify(getApp().globalData.ShuffleData));
+      const arr = data.arr;
+      const num = data.num;
       const length = arr.length;
       for (let i = 0; i < length; ++i) {
         const x = Math.floor(Math.random() * length);
         const y = Math.floor(Math.random() * length);
         [arr[x], arr[y]] = [arr[y], arr[x]];
       }
-      this.operateArr = arr;
+      this.operateArr = arr.slice(0, num);
+      this.canShare = false;
       //需要取消掉分享
     },
     async ShuffleArray() {
-      // try {
-      var { data } = await wx.post("/shuffle", getApp().globalData.ShuffleData);
-      // } catch (e) {
-      //   this.arrtimes++;
-      //   if (this.arrtimes > 6) return this.ShuffleArrayLocal();
-      //   else {
-      //     return this.ShuffleArray();
-      //   }
-      // }
+      try {
+        var { data } = await wx.post(
+          "/shuffle",
+          getApp().globalData.ShuffleData
+        );
+      } catch (e) {
+        //一般是服务器没开
+        this.ShuffleArrayLocal();
+      }
       if (data.state === -1) {
         await wx.loginserver();
         return this.ShuffleArray();
       }
+      this.canShare = true;
       this.operateArr = data.arr;
       this.shufferid = data.id;
       this.shuffertoken = data.token;
@@ -71,25 +80,21 @@ export default {
     },
     async shareMenu() {},
     async mountedFunc() {
-      if (this.errtimes > 5) {
-        //处理离线逻辑
-        console.log("进入离线随机");
-        return this.ShuffleArrayLocal();
-      }
       try {
         await wx.promisify(wx.checkSession)();
 
         this.ShuffleArray();
       } catch (NoSessionKey) {
-        await wx.loginserver();
-        this.errtimes++;
-        return this.mountedFunc();
+        try {
+          await wx.loginserver();
+          return this.mountedFunc();
+        } catch (e) {
+          this.ShuffleArrayLocal();
+        }
       }
     },
     async getDataAndUpload() {
-      console.log("into getDataAndUpload");
       var nickName = await wx.store("nickName");
-      console.log(nickName);
 
       if (nickName === undefined) {
         var res = await wx.promisify(wx.getUserInfo)({
@@ -119,8 +124,10 @@ export default {
       for (var item of this.operateArr) {
         if (item === undefined) continue;
         var filePath = item.imgurl;
-        if (filePath.indexOf("url(") !== 0) continue;
-        filePath = filePath.slice(4, -1);
+        if (filePath.indexOf("://") === -1) {
+          this.uploadStatus.at++;
+          continue;
+        }
         var { data } = await wx.upload({
           url: "/upload",
           filePath,
@@ -141,12 +148,14 @@ export default {
           at: 0,
           sum: 0
         };
+        wx.showToast({
+          title: "上传成功!"
+        });
       }
     }
   },
   mounted() {
     if (this.operateArr.length) this.operateArr = [];
-    this.errtimes = 0;
     this.mountedFunc();
   },
   onShareAppMessage(res) {

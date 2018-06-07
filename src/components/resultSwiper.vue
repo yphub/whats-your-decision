@@ -1,20 +1,22 @@
 <template>
-    <swiper id='resultSwiper' :indicator-dots="true" :skip-hidden-item-layout='true'>
-        <swiper-item v-for="(item,index) in items" :key="index" class="item">
-            <div class="item-card">
-                <template v-if="index == 0">
-                    <text class="title-bg">最佳决策</text>
-                    <text class="title">最佳决策</text>
-                </template>
-                <template v-else>
-                    <text class="title-bg">第{{ index + 1 }}决策</text>
-                    <text class="title">第{{ index + 1 }}决策</text>
-                </template>
-                <div class="item-image" :style='{background:item.imgurl}'></div>
-                <text class="footer" v-if="item.text">{{ item.text }}</text>
-            </div>
-        </swiper-item>
-    </swiper>
+  <swiper id='resultSwiper' :indicator-dots="true" :skip-hidden-item-layout='true'>
+    <swiper-item v-for="(item,index) in items" :key="index" class="item">
+      <div class="item-card">
+        <div class="rubberBand" v-if="index == 0">
+          <text class="title-bg">最佳决策</text>
+          <text class="title">最佳决策</text>
+        </div>
+        <div class="rubberBand" v-else>
+          <text class="title-bg">第{{ index + 1 }}决策</text>
+          <text class="title">第{{ index + 1 }}决策</text>
+        </div>
+        <div class="item-image" :style='{background:item.imgurl}'>
+          <image mode="aspectFill" :src="item.imgurl" />
+        </div>
+        <text class="footer" v-if="item.text">{{ item.text }}</text>
+      </div>
+    </swiper-item>
+  </swiper>
 </template>
 
 <script>
@@ -51,14 +53,15 @@ export default {
       position: relative;
       > .item-image {
         flex-grow: 2;
-        background-position: center !important;
-        background-size: cover !important;
-        background-repeat: no-repeat !important;
+        position: relative;
       }
-      > text.title,
+      .rubberBand {
+        margin-bottom: 20px;
+        z-index: 100;
+      }
+      text.title,
       text.title-bg {
         font-family: "iconfont";
-        z-index: 0;
         font-size: 60px;
         position: absolute;
         left: 0;
@@ -66,13 +69,13 @@ export default {
         width: 100%;
         transform: translateY(-50%);
       }
-      > text {
+      text {
         text-align: center;
       }
-      > text.title-bg {
+      text.title-bg {
         -webkit-text-stroke: 10px white;
       }
-      > text.footer {
+      text.footer {
         padding-top: 10px;
       }
     }

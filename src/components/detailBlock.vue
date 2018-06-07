@@ -2,13 +2,17 @@
   <div id="detailBlock" :class="{isin}" @transitionend="onAnimateEnd">
     <div class='inner'>
       <div class="close" @tap="EmitClose"></div>
-      <div class="image" :style="{background:ownSelectData.imgurl}" @tap="AlterImage"></div>
+      <div class="image" @tap="AlterImage" :style="{background:ownSelectData.imgurl}">
+        <image v-if="isUrlImage" mode="aspectFill" :src="ownSelectData.imgurl" />
+      </div>
       <div class="pad">
         <input placeholder="填写文本概要" :class="{focus:inputFocusClass}" v-model.lazy="ownSelectData.text" @focus='inputFocusClass=true' @blur='inputFocusClass=false' />
       </div>
       <div class="hr-bottom"></div>
       <div class="color pad">
-        <div v-for="(item,index) in colorSelectArr" :key="index" class="color-each" :class="{'focus':ownSelectData.imgurl==item}" :style="{background:item}" @tap="SetColor(item)"></div>
+        <div v-for="(item,index) in colorSelectArr" :key="index" class="color-each" :class="{'focus':ownSelectData.imgurl==item}" :style="{background:item}" @tap="SetColor(item)">
+          <image v-if="colorSelectArrLen - 1 === index" mode="aspectFill" :src="item" />
+        </div>
       </div>
       <div class="certain" hover-class="certain-hover" @tap="EmitCertain">
         确定
@@ -35,9 +39,25 @@ export default {
     return {
       isin: false,
       inputFocusClass: false,
-      colorSelectArr: ["red", "blue", "green"],
+      colorSelectArr: [
+        "#007bff",
+        "#6c757d",
+        "#28a745",
+        "#dc3545",
+        "#ffc107",
+        "#17a2b8",
+        "#343a40"
+      ],
       ownSelectData: JSON.parse(JSON.stringify(this.selectData))
     };
+  },
+  computed: {
+    colorSelectArrLen() {
+      return this.colorSelectArr.length;
+    },
+    isUrlImage() {
+      return this.ownSelectData.imgurl.indexOf("://") !== -1;
+    }
   },
   methods: {
     EmitCertain() {
@@ -56,9 +76,11 @@ export default {
         sizeType: ["compressed"],
         sourceType: ["album", "camera"],
         success: res => {
-          var imgurl = `url(${res.tempFilePaths[0]})`;
+          var imgurl = res.tempFilePaths[0];
           this.ownSelectData.imgurl = imgurl;
-          this.colorSelectArr[this.colorSelectArr.length - 1] = this.ownSelectData.imgurl;
+          this.colorSelectArr[
+            this.colorSelectArr.length - 1
+          ] = this.ownSelectData.imgurl;
         }
       });
     },
@@ -100,7 +122,7 @@ export default {
     > .inner {
       transform: translateY(0%);
     }
-  }
+  } 
 
   > .inner {
     position: fixed;
@@ -121,6 +143,7 @@ export default {
       padding: 10px;
       position: absolute;
       right: 0;
+      z-index: 100;
       content: "\e611";
     }
 
@@ -132,14 +155,12 @@ export default {
     .image {
       flex-basis: 40%;
       flex-grow: 2;
-      background-size: cover !important;
-      background-position: center !important;
-      background-repeat: no-repeat !important;
       transition: all ease-in-out 0.4s;
+      position: relative;
     }
 
     .pad {
-      padding: 5%;
+      padding: 4%;
     }
     .color {
       display: flex;
@@ -150,9 +171,7 @@ export default {
         width: 50rpx;
         border-radius: 3px;
         border: 1px;
-        background-size: cover !important;
-        background-position: center !important;
-        background-repeat: no-repeat !important;
+        position: relative;
       }
     }
 

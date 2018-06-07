@@ -40,8 +40,16 @@ export default {
       });
     }
   },
-  async onLoad(opt) {    
-    var { data } = await wx.get(`/show/${opt.id}/${opt.token}`);    
+  async onLoad(opt) {
+    try {
+      var { data } = await wx.get(`/show/${opt.id}/${opt.token}`);
+    } catch (e) {
+      wx.showToast({
+        title: "服务器开小差了，请稍等一会后再试",
+        icon: "none"
+      });
+      return;
+    }
     // var { data } = await wx.get(`/show/6/123`);
     // console.log(data);
     const app = getApp();
@@ -98,6 +106,9 @@ export default {
           border-radius: 50%;
           margin-right: 15px;
           box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+          position: inherit;
+          left: inherit;
+          top: inherit;
         }
         > text {
           flex-grow: 2;
