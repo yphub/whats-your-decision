@@ -7,6 +7,7 @@ app.$mount()
 export default {
   config: {
     navigationBarTitleText: "决策结果",
-    navigationBarBackgroundColor: "#b2b2b2"
+    navigationBarBackgroundColor: "#b2b2b2",
+    disableScroll: true
   }
 }

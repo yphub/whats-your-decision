@@ -11,7 +11,7 @@ export default {
   props: ["loading"],
   data() {
     return {
-      display: "flex"
+      display: "none"
     };
   },
   watch: {

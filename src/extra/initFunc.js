@@ -13,6 +13,16 @@ export default function () {
     }
   }
 
+  //版本检测
+  var __ver__ = "1.2.2";
+  var ver = wx.getStorageSync("appversion");
+  if (ver !== __ver__) {
+    wx.clearStorageSync();
+    wx.setStorage({
+      key: "appversion",
+      data: __ver__
+    })
+  }
   var cookie = wx.getStorageSync('cookie');
   const host = "https://xcx.oucolab.cn"
   app.globalData.host = host;

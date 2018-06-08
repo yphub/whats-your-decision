@@ -6,6 +6,7 @@ app.$mount()
 
 export default {
   config: {
-    navigationBarTitleText: "请添加决策内容"
+    navigationBarTitleText: "请添加决策内容",
+    disableScroll: true
   }
 }

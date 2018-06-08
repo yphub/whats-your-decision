@@ -64,7 +64,7 @@ export default {
         );
       } catch (e) {
         //一般是服务器没开
-        this.ShuffleArrayLocal();
+        return this.ShuffleArrayLocal();
       }
       if (data.state === -1) {
         await wx.loginserver();
@@ -94,15 +94,25 @@ export default {
       }
     },
     async getDataAndUpload() {
+      if (this.uploadFinished) return;
       var nickName = await wx.store("nickName");
+      var infoExpire = await wx.store("infoExpire");
 
-      if (nickName === undefined) {
+      if (
+        nickName === undefined ||
+        infoExpire === undefined ||
+        infoExpire - new Date() < 0
+      ) {
         var res = await wx.promisify(wx.getUserInfo)({
           withCredentials: true
         });
         console.log(res);
 
         //将 res.nickName存入storage
+        wx.setStorage({
+          key: "infoExpire",
+          data: +new Date() + 24 * 3600 * 1000
+        });
         wx.setStorage({ key: "nickName", data: res.userInfo.nickName });
         wx.setStorage({ key: "avatarUrl", data: res.userInfo.avatarUrl });
 
@@ -128,17 +138,27 @@ export default {
           this.uploadStatus.at++;
           continue;
         }
-        var { data } = await wx.upload({
-          url: "/upload",
-          filePath,
-          name: "u",
-          formData: {
-            id: this.shufferid,
-            url: item.imgurl
-          }
-        });
+        try {
+          var { data } = await wx.upload({
+            url: "/upload",
+            filePath,
+            name: "u",
+            formData: {
+              id: this.shufferid,
+              url: item.imgurl
+            }
+          });
+        } catch (e) {
+          //出现500错误当作上传出错处理,防止uploadMask不消失
+          var data = {
+            state: -1
+          };
+        }
         if (data.state === -1) {
-          //处理没上传成功的逻辑
+          wx.showToast({
+            title: `上传出错 索引:${this.uploadStatus}`,
+            icon: "none"
+          });
         }
         this.uploadStatus.at++;
       }
@@ -148,13 +168,21 @@ export default {
           at: 0,
           sum: 0
         };
+        this.uploadFinished = true;
         wx.showToast({
           title: "上传成功!"
         });
+      } else {
+        wx.showToast({
+          title: "上传未完成，请返回重试",
+          icon: "none"
+        });
+        this.uploadFinished = true;
       }
     }
   },
   mounted() {
+    this.uploadFinished = false;
     if (this.operateArr.length) this.operateArr = [];
     this.mountedFunc();
   },

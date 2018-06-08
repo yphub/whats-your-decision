@@ -1,5 +1,5 @@
 <template>
-  <div class='directBlock' :class="{show}" @transitionend="changeState" @click="show=false">
+  <div class='directBlock' :class="{show}" @transitionend="changeState" @touchstart="show=false">
     <div class="direct">
       <div class="showAreablock">
         <div class="topArea"></div>
@@ -17,6 +17,7 @@
           <span>按住“+”右滑选择图片</span>
           <span>按住“+”左滑撰写文本</span>
           <span>或选择颜色</span>
+          <span>长按开启删除</span>
         </view>
         <view class="showTextBottom">
           <span>这里修改您的决策数量</span>
@@ -162,7 +163,7 @@ export default {
       }
       > .showTextBottom {
         position: absolute;
-        bottom: 45px;        
+        bottom: 45px;
       }
     }
   }
@@ -183,19 +184,19 @@ export default {
 }
 #showArea2 {
   transform: rotate(0.33turn);
-  margin-top: 60px;
+  margin-top: 75px;
   font-size: 40px !important;
 }
 span {
-  font-size: 32rpx;
-  line-height: 42rpx;
+  font-size: 20px;
+  // line-height: 42rpx;
   word-break: normal;
   width: auto;
   display: block;
   white-space: pre-wrap;
   word-wrap: break-word;
   overflow: hidden;
-  color: rgba(255, 0, 0, 1);
+  color: #444;
   margin-top: 20rpx;
 }
 .iconfont {

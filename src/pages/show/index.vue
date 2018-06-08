@@ -28,7 +28,6 @@ export default {
   data() {
     return {
       operateArr: [],
-      loading: true,
       ownericon: "",
       ownername: ""
     };
@@ -41,6 +40,9 @@ export default {
     }
   },
   async onLoad(opt) {
+    this.operateArr = [];
+    this.ownericon = "";
+    this.ownername = "";
     try {
       var { data } = await wx.get(`/show/${opt.id}/${opt.token}`);
     } catch (e) {
@@ -55,7 +57,7 @@ export default {
     const app = getApp();
     data.list.forEach(ele => {
       if (ele.imgurl.indexOf("/uploads/") === 0)
-        ele.imgurl = `url(${app.globalData.host}${ele.imgurl})`;
+        ele.imgurl = `${app.globalData.host}${ele.imgurl}`;
     });
     this.operateArr = data.list;
     this.ownericon = data.user.avatarUrl;

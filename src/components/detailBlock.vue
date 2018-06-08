@@ -46,7 +46,10 @@ export default {
         "#dc3545",
         "#ffc107",
         "#17a2b8",
-        "#343a40"
+        "#343a40",
+        "#563d7c",
+        "#ca8a00",
+        "#f42ced"
       ],
       ownSelectData: JSON.parse(JSON.stringify(this.selectData))
     };
@@ -122,7 +125,7 @@ export default {
     > .inner {
       transform: translateY(0%);
     }
-  } 
+  }
 
   > .inner {
     position: fixed;

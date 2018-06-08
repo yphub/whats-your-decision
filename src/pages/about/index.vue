@@ -12,9 +12,8 @@
                 <text class="h2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;帮你决策小程序主要是为了帮助人们解决决策困难的问题，用户在遇到纠结的问题时，可将需要决策的内容输入到小程序中，通过小程序内的算法，系统会自动帮你决策出最佳选项。目前支持的内容有图片、文字和颜色。</text>
                 <text class="hr"></text>
                 <text class="h1">关于我们</text>
-                <text class="h2">古良辉 中国海洋大学 教育技术</text>
-                <text class="h2">刘颜君 中国海洋大学 教育技术</text>
-                <text class="h2">陈淯培 中国海洋大学 电子信息工程</text>
+                <text class="h2">古良辉 刘颜郡 陈淯培</text>
+                <text class="h2">联系邮箱：mrshell@edman.cn</text>
             </div>
         </div>
         <button @click="goBack">返回</button>

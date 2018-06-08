@@ -5,8 +5,9 @@ const app = new Vue(App)
 app.$mount()
 
 export default {
-    config:{
-        navigationBarTitleText: "决策！",
-        navigationBarBackgroundColor: "#b2b2b2"
-    }
+  config: {
+    navigationBarTitleText: "决策！",
+    navigationBarBackgroundColor: "#b2b2b2",
+    disableScroll: true
+  }
 }
