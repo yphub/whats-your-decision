@@ -13,7 +13,7 @@
           <view class="icon-picture"></view>
         </view>
       </view>
-      <view class="iconfont icon-close" v-if="deleteOn" @tap.stop="$emit('delete')"></view>
+      <view class="iconfont icon-close" :class="{deleteOn}" @tap.stop="$emit('delete')"></view>
     </view>
   </div>
 </template>
@@ -190,7 +190,11 @@ export default {
       top: 0;
       color: red;
       transform-origin: 100% 6.521744%;
-      transform: translateY(-1.5px) scale(2.5);
+      transform: translateY(-1.5px) scale(0);
+      transition: transform ease-out .4s;
+      &.deleteOn {
+        transform: translateY(-1.5px) scale(2.5);
+      }
     }
 
     &-hover > .mask {
