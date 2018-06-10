@@ -159,10 +159,12 @@ export default {
       align-items: center;
       > .showTextTop {
         position: absolute;
+        left: 50px;
         top: 140px;
       }
       > .showTextBottom {
         position: absolute;
+        left: 75px;
         bottom: 45px;
       }
     }
