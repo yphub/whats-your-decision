@@ -30,7 +30,7 @@ export default function () {
   //promise化ajax
   wx.ajax = function (path, data, method) {
     if (path === undefined) path = '/'
-    console.info(`${method} ${host}${path}`);
+    // console.info(`${method} ${host}${path}`);
     return new Promise(function (resolve, reject) {
       wx.request({
         url: host + path,
@@ -89,15 +89,15 @@ export default function () {
 
   wx.store = async function (key) {
     return new Promise(function (resolve, reject) {
-      console.log(`%c getting Storage: ${key}`, "color:orange;font-weight:bold")
+      // console.log(`%c getting Storage: ${key}`, "color:orange;font-weight:bold")
       wx.getStorage({
         key,
         success: function (res) {
-          console.log(`%c Storage: ${key}=${res.data}`, "color:green;font-weight:bold")
+          // console.log(`%c Storage: ${key}=${res.data}`, "color:green;font-weight:bold")
           resolve(res.data);
         },
         fail: function () {
-          console.log(`%c Storage: ${key}=undefined`, "color:greem;font-weight:bold")
+          // console.log(`%c Storage: ${key}=undefined`, "color:greem;font-weight:bold")
           resolve(undefined)
         }
       })

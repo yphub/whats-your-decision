@@ -61,8 +61,7 @@ export default {
       showDirect: true
     };
   },
-  onShow() {
-    console.log('show')
+  onShow() {    
     wx.onAccelerometerChange(res => {
       if (
         res.x * res.x + res.y * res.y + res.z * res.z > 2 &&
