@@ -4,6 +4,7 @@
       <div class="close" @tap="EmitClose"></div>
       <div class="image" @tap="AlterImage" :style="{background:ownSelectData.imgurl}">
         <image v-if="isUrlImage" mode="aspectFill" :src="ownSelectData.imgurl" />
+        <text v-if="ownSelectData.imgurl==''">点此添加图片</text>
       </div>
       <div class="pad">
         <input placeholder="填写文本概要" :class="{focus:inputFocusClass}" v-model.lazy="ownSelectData.text" @focus='inputFocusClass=true' @blur='inputFocusClass=false' />
@@ -160,6 +161,12 @@ export default {
       flex-grow: 2;
       transition: all ease-in-out 0.4s;
       position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      >text{
+        color: gray;
+      }
     }
 
     .pad {
