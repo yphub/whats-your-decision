@@ -14,7 +14,7 @@ export default function () {
   }
 
   //版本检测
-  var __ver__ = "1.2.3";
+  var __ver__ = "1.2.5";
   var ver = wx.getStorageSync("appversion");
   if (ver !== __ver__) {
     wx.clearStorageSync();

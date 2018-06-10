@@ -5,7 +5,10 @@
       <div v-if="operateArr.length" class="shuffle-result">
         <resultSwiper :items="operateArr"></resultSwiper>
         <div class="button-group">
-          <button v-if="canShare" @click="shareMenu" open-type="share" type="primary">分享</button>
+          <template v-if="canShare">
+            <button v-if="hasUser" open-type="share" type="primary">分享</button>
+            <button v-else open-type="getUserInfo" @getuserinfo="onUserInfo" type="primary">授权并分享</button>
+          </template>
           <button @click="goBack">返回</button>
         </div>
       </div>
@@ -33,7 +36,8 @@ export default {
         sum: 0,
         at: 0
       },
-      canShare: true
+      canShare: true,
+      hasUser: false
     };
   },
   methods: {
@@ -78,7 +82,6 @@ export default {
     goBack() {
       wx.navigateBack();
     },
-    async shareMenu() {},
     async mountedFunc() {
       try {
         await wx.promisify(wx.checkSession)();
@@ -93,37 +96,33 @@ export default {
         }
       }
     },
-    async getDataAndUpload() {
-      if (this.uploadFinished) return;
-      var nickName = await wx.store("nickName");
-      var infoExpire = await wx.store("infoExpire");
+    async onUserInfo(e) {
+      var res = e.mp.detail;
+      console.log(res);
 
-      if (
-        nickName === undefined ||
-        infoExpire === undefined ||
-        infoExpire - new Date() < 0
-      ) {
-        var res = await wx.promisify(wx.getUserInfo)({
-          withCredentials: true
-        });
-        console.log(res);
+      wx.setStorage({
+        key: "infoExpire",
+        data: +new Date() + 24 * 3600 * 1000
+      });
+      wx.setStorage({ key: "nickName", data: res.userInfo.nickName });
+      wx.setStorage({ key: "avatarUrl", data: res.userInfo.avatarUrl });
 
-        //将 res.nickName存入storage
-        wx.setStorage({
-          key: "infoExpire",
-          data: +new Date() + 24 * 3600 * 1000
-        });
-        wx.setStorage({ key: "nickName", data: res.userInfo.nickName });
-        wx.setStorage({ key: "avatarUrl", data: res.userInfo.avatarUrl });
-
-        var { data } = await wx.post("/logindata", {
-          encryptedData: res.encryptedData,
-          iv: res.iv
-        });
-        if (data.state === false) {
-          //处理加密数据出错
-        }
+      var { data } = await wx.post("/logindata", {
+        encryptedData: res.encryptedData,
+        iv: res.iv
+      });
+      if (data.state === false) {
+        //处理加密数据出错
       }
+
+      this.hasUser = true;
+      wx.showToast({
+        title: "已授权"        
+      });
+      // this.uploadData();
+    },
+    async uploadData() {
+      if (this.uploadFinished) return;
 
       // await wx.promisify(wx.showShareMenu)();
       this.uploadStatus = {
@@ -181,13 +180,22 @@ export default {
       }
     }
   },
-  mounted() {
+  async mounted() {
     this.uploadFinished = false;
     if (this.operateArr.length) this.operateArr = [];
     this.mountedFunc();
+
+    var nickName = await wx.store("nickName");
+    var infoExpire = await wx.store("infoExpire");
+
+    this.hasUser = !(
+      nickName === undefined ||
+      infoExpire === undefined ||
+      infoExpire - new Date() < 0
+    );
   },
   onShareAppMessage(res) {
-    this.getDataAndUpload();
+    this.uploadData();
     /*setTimeout(()=>{
       wx.navigateTo({
         url: `/pages/show/main?id=${this.shufferid}&token=${this.shuffertoken}`
