@@ -1,6 +1,6 @@
 <template>
   <div class='selectBlock' ref="mainblock">
-    <view class="outer" :class="{'outer-hover':componentHover}" @tap="EmitItap" @touchstart="onTouchStart" @touchend="onTouchEnd" @touchmove="onTouchMove" @longpress="EmitTiggleDelete">
+    <view class="outer" :class="{'outer-hover':componentHover}" @tap="EmitItap" @touchstart="onTouchStart" @touchend="onTouchEnd" @touchmove="onTouchMove">
       <view class="inner" :class="{'select-add':selectData.text===undefined}" :style="{background:selectData.imgurl}">
         <image v-if="isUrlImage" mode="aspectFill" :src="selectData.imgurl" />
       </view>
@@ -36,22 +36,32 @@ export default {
   },
   methods: {
     EmitItap() {
+      if (this.longPressed) return delete this.longPressed;
       if (this.deleteOn === true) this.$emit("tiggledelete", false);
       else this.$emit("edit");
     },
     EmitTiggleDelete() {
+      //这里的长按并不是longpress，因为longpress无法设置长按时间并且时间过短，我们在这里重新封装
+      this.longPressed = true;
       this.onTouchEnd();
       this.$emit("tiggledelete", true);
     },
     onTouchStart(e) {
+      var timehandler = +new Date();
+      this.touchStartTime = timehandler;
       this.componentHover = true;
       this.touchOffset = e.touches[0].pageX;
+      //长按延时
+      setTimeout(() => {
+        if (this.touchStartTime === timehandler) this.EmitTiggleDelete();
+      }, 750);
     },
     onTouchEnd(e) {
       var data = {
         optionHoverLeft: this.optionHoverLeft,
         optionHoverRight: this.optionHoverRight
       };
+      delete this.touchStartTime;
       this.componentHover = false;
       this.optionHoverLeft = false;
       this.optionHoverRight = false;
@@ -66,12 +76,7 @@ export default {
         .selectAll(".outer")
         .boundingClientRect(res => {
           res = res[id];
-          if (
-            point.pageX > res.left &&
-            point.pageX < res.right &&
-            point.pageY > res.top &&
-            point.pageY < res.bottom
-          ) {
+          if (point.pageY > res.top && point.pageY < res.bottom) {
             if (data.optionHoverLeft) this.$emit("edit");
             else if (data.optionHoverRight) this.$emit("image");
           }
@@ -80,12 +85,15 @@ export default {
     },
     onTouchMove(e) {
       var offset = e.touches[0].pageX - this.touchOffset;
+      delete this.longPressed;
       if (offset > 10) {
         this.optionHoverRight = true;
         this.optionHoverLeft = false;
+        delete this.touchStartTime;
       } else if (offset < -10) {
         this.optionHoverLeft = true;
         this.optionHoverRight = false;
+        delete this.touchStartTime;
       } else {
         this.optionHoverLeft = false;
         this.optionHoverRight = false;
