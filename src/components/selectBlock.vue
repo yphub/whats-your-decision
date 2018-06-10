@@ -3,6 +3,7 @@
     <view class="outer" :class="{'outer-hover':componentHover}" @tap="EmitItap" @touchstart="onTouchStart" @touchend="onTouchEnd" @touchmove="onTouchMove">
       <view class="inner" :class="{'select-add':selectData.text===undefined}" :style="{background:selectData.imgurl}">
         <image v-if="isUrlImage" mode="aspectFill" :src="selectData.imgurl" />
+        <!-- <image v-else-if="!selectData.imgurl && !(selectData.text===undefined)" mode="aspectFit" src="/static/title.png" /> -->
       </view>
       <text v-if="selectData.text">{{selectData.text}}</text>
       <view class="mask">
@@ -191,7 +192,7 @@ export default {
       color: red;
       transform-origin: 100% 6.521744%;
       transform: translateY(-1.5px) scale(0);
-      transition: transform ease-out .4s;
+      transition: transform ease-out 0.4s;
       &.deleteOn {
         transform: translateY(-1.5px) scale(2.5);
       }
