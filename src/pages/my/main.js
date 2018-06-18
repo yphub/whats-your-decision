@@ -6,7 +6,7 @@ app.$mount()
 
 export default {
   config: {
-    disableScroll: true,
+    // disableScroll: true,
     navigationBarTitleText: "我的决策",
   }
 }

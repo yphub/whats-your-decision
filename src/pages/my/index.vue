@@ -2,27 +2,28 @@
   <div id='my'>
     <!-- <text>我的决策</text> -->
     <div v-for="(item,index) in items" :key="index" class="item" @click="JumpShow(index)">
-      <div class="image" :style="{'background-image':item.imgurl}"></div>
+      <div class="image" :style="{background:item.imgurl}"></div>
       <div class="datetime">
         <text class="time">{{item.time}}</text>
         <text class="date">{{item.date}}</text>
       </div>
     </div>
     <template v-if="true || pages!==1">
-      <picker @change="onResultNumChange" :range="pageArr">
-        <div class="page-picker">
-          页面:
-          <div>{{pageat}}
-            <div class="result-xiala"></div>
-            (只有分享了的决策才会在这里哦)
-          </div>
+      <!-- <picker @change="onResultNumChange" :value="pageat" :range="pageArr"> -->
+      <div class="page-picker">
+        页面:
+        <div>{{pageat}}
+          <!-- <div class="result-xiala"></div> -->
+          (只有分享了的决策才会在这里哦)
         </div>
-      </picker>
+      </div>
+      <!-- </picker> -->
       <div class="pagebtn">
-        <button :disabled="pageat==1" @click="pageat++">上一页</button>
-        <button :disabled="pageat==pages" @click="pageat--">下一页</button>
+        <button :disabled="pageat==1" @click="pageat--">上一页</button>
+        <button :disabled="pageat==pages" @click="pageat++">下一页</button>
       </div>
     </template>
+    <button style="width:80%" @click="JumpBack">返回</button>
     <loadingMask :loading="loading"></loadingMask>
   </div>
 </template>
@@ -79,7 +80,9 @@ export default {
         if (item === undefined) continue;
         // debugger;
         item.createdAt = new Date(item.createdAt);
-        item.time = `${item.createdAt.getHours()}:${item.createdAt.getMinutes()}`;
+        let minute = item.createdAt.getMinutes();
+        if (minute < 10) minute = "0" + minute;
+        item.time = `${item.createdAt.getHours()}:${minute}`;
         item.date = `${item.createdAt.getFullYear()}-${item.createdAt.getMonth() +
           1}-${item.createdAt.getDate()}`;
         item.imgurl = item.list[0].imgurl;
@@ -107,6 +110,12 @@ export default {
       wx.navigateTo({
         url: `/pages/shuffle/main`
       });
+    },
+    onResultNumChange(e) {
+      this.pageat = +e.mp.detail.value + 1;
+    },
+    JumpBack() {
+      wx.navigateBack();
     }
   },
   mounted() {
@@ -118,6 +127,7 @@ export default {
 <style lang='scss'>
 #my {
   padding-top: 20px;
+  padding-bottom: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -130,6 +140,7 @@ export default {
     padding: 10px;
     height: 80px;
     background-color: white;
+    margin-bottom: 10px;
     > .image {
       background-size: cover !important;
       background-position: center !important;
@@ -181,10 +192,14 @@ export default {
         border-top-left-radius: 0 !important;
         border-bottom-left-radius: 0 !important;
       }
-      &::after {
-        border: none;
-      }
     }
+  }
+  button {
+    margin-bottom: 5px;
+    font-size: 18px;
+  }
+  button::after {
+    border: none;
   }
 }
 </style>

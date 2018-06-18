@@ -32,7 +32,7 @@ export default {
       });
     }
   },
-  mounted() {
+  onShow() {
     delete getApp().globalData.ShowData;
   }
 };
