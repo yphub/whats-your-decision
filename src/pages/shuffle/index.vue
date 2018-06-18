@@ -85,7 +85,14 @@ export default {
     async mountedFunc() {
       try {
         await wx.promisify(wx.checkSession)();
-
+        let data = getApp().globalData.ShowData;
+        if (data !== undefined) {
+          this.canShare = true;
+          this.operateArr = data.list;
+          this.shufferid = data.id;
+          this.shuffertoken = data.token;
+          return;
+        }
         this.ShuffleArray();
       } catch (NoSessionKey) {
         try {
@@ -117,7 +124,7 @@ export default {
 
       this.hasUser = true;
       wx.showToast({
-        title: "已授权"        
+        title: "已授权"
       });
       // this.uploadData();
     },

@@ -2,7 +2,7 @@
   <div id='MainPage'>
     <div class="logo">
       <div class="logotext">
-        <image mode="aspectFit" src="/static/title.png"/>
+        <image mode="aspectFit" src="/static/title.png" />
       </div>
     </div>
     <div class="btn-group">
@@ -10,9 +10,9 @@
         <div class="icon-zk"></div>
         <text>开始决策</text>
       </button>
-      <button @tap="JumpPage('about')">
+      <button @tap="JumpPage('my')">
         <div class="icon-qq"></div>
-        <text>关于我们</text>
+        <text>我的决策</text>
       </button>
     </div>
     <!-- <button @tap="JumpPage('multiple')">多人决策</button> -->
@@ -33,9 +33,7 @@ export default {
     }
   },
   mounted() {
-    /*wx.navigateTo({
-      url: "/pages/show/main?id=1&token=2"
-    });*/
+    delete getApp().globalData.ShowData;
   }
 };
 </script>
@@ -61,7 +59,7 @@ export default {
     > .logotext {
       position: absolute;
       width: 100%;
-      height: 100%;      
+      height: 100%;
       animation: swing 2s ease-in-out infinite;
       transform: scale(0.7);
       @keyframes swing {
