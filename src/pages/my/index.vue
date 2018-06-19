@@ -73,7 +73,7 @@ export default {
       }
       if (state === -1) {
         await wx.loginserver();
-        return this.datUpdate();
+        return this.datUpdate(true);
       }
       let host = getApp().globalData.host;
       for (let item of items) {
